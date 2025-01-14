@@ -1,0 +1,100 @@
+/* InvoicePDF.css */
+.pdf-page {
+    font-family: 'Arial', sans-serif;
+    padding: 20px;
+    background-color: #f9f9f9;
+    color: #333;
+  }
+  
+  .invoice-container {
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+  }
+  
+  .blob-wrapper svg {
+    position: absolute;
+    top: -20px;
+    left: -20px;
+    width: 100px;
+    height: 100px;
+    opacity: 0.1;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 20px;
+  }
+  
+  .invoice-title {
+    font-size: 32px;
+    font-weight: bold;
+    color: #0066ff;
+  }
+  
+  .company-info {
+    text-align: right;
+  }
+  
+  .company-logo img {
+    width: 100px;
+    margin-bottom: 10px;
+  }
+  
+  .invoice-details {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .detail-row {
+    margin-bottom: 10px;
+  }
+  
+  .detail-label {
+    font-weight: bold;
+    color: #555;
+  }
+  
+  .invoice-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+  }
+  
+  .invoice-table thead th {
+    background-color: #0066ff;
+    color: #fff;
+    text-align: left;
+    padding: 10px;
+  }
+  
+  .invoice-table tbody td {
+    padding: 10px;
+    border: 1px solid #ddd;
+  }
+  
+  .invoice-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .total-section {
+    font-size: 18px;
+    font-weight: bold;
+    text-align: right;
+    margin-top: 20px;
+  }
+  
+  .footer {
+    margin-top: 30px;
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+  }
+  

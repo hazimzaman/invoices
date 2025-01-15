@@ -284,6 +284,9 @@ export const InvoicePDF: React.FC<Props> = ({ invoice, settings }) => (
         <View style={styles.footer}>
           <Text>If you have any questions, please contact: {settings.email}</Text>
         </View>
+        <View style={styles.footer}>
+          <Text>If you have any questions, please contact: {settings.email}</Text>
+        </View>
       </View>
     </Page>
   </Document>

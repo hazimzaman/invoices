@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useClients } from '../../hooks/useClients';
 import { Input } from '../ui/Input';
 import { Button } from '../ui/Button';
@@ -11,11 +11,15 @@ interface Props {
   onCancel: () => void;
 }
 
+// Simplified currency options
+const CURRENCY_OPTIONS = ['€', '$', 'Rs', '£'];
+
 export const InvoiceForm: React.FC<Props> = ({ onSubmit, onCancel }) => {
   const { clients, loading: clientsLoading, error: clientsError } = useClients();
   const [selectedClient, setSelectedClient] = useState('');
+  const [selectedCurrency, setSelectedCurrency] = useState('€');
   const [items, setItems] = useState<InvoiceItem[]>([
-    { name: '', price: 0, currency: 'USD' }
+    { name: '', price: 0, currency: '€' }
   ]);
   const [submitting, setSubmitting] = useState(false);
 
@@ -29,7 +33,8 @@ export const InvoiceForm: React.FC<Props> = ({ onSubmit, onCancel }) => {
         client_id: selectedClient,
         invoice_number: `INV-${Date.now()}`,
         date: new Date().toISOString().split('T')[0],
-        items
+        items,
+        currency_selector: selectedCurrency
       });
     } finally {
       setSubmitting(false);
@@ -37,28 +42,15 @@ export const InvoiceForm: React.FC<Props> = ({ onSubmit, onCancel }) => {
   };
 
   const addItem = () => {
-    setItems([...items, { name: '', price: 0, currency: 'USD' }]);
+    setItems([...items, { name: '', price: 0, currency: selectedCurrency }]);
   };
 
-  const updateItem = (index: number, field: keyof InvoiceItem, value: string | number) => {
-    const newItems = [...items];
-    newItems[index] = {
-      ...newItems[index],
-      [field]: field === 'price' ? Number(value) : value
-    };
-    setItems(newItems);
-  };
-
-  if (clientsLoading) {
-    return <LoadingSpinner />;
-  }
-
-  if (clientsError) {
-    return <ErrorMessage message={clientsError} />;
-  }
+  if (clientsLoading) return <LoadingSpinner />;
+  if (clientsError) return <ErrorMessage message={clientsError} />;
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      {/* Client Selection */}
       <div>
         <label className="block text-sm font-medium text-gray-700">Client</label>
         <select
@@ -67,7 +59,7 @@ export const InvoiceForm: React.FC<Props> = ({ onSubmit, onCancel }) => {
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
           required
         >
-          <option value="">Select a clienttT</option>
+          <option value="">Select a client</option>
           {clients.map((client) => (
             <option key={client.id} value={client.id}>
               {client.company_name ? `${client.company_name} (${client.name})` : client.name}
@@ -76,6 +68,29 @@ export const InvoiceForm: React.FC<Props> = ({ onSubmit, onCancel }) => {
         </select>
       </div>
 
+      {/* Currency Selection */}
+      <div>
+        <label className="block text-sm font-medium text-gray-700">Currency</label>
+        <select
+          value={selectedCurrency}
+          onChange={(e) => {
+            const newCurrency = e.target.value;
+            setSelectedCurrency(newCurrency);
+            // Update all items to use the new currency
+            setItems(items.map(item => ({ ...item, currency: newCurrency })));
+          }}
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+          required
+        >
+          {CURRENCY_OPTIONS.map((currency) => (
+            <option key={currency} value={currency}>
+              {currency}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {/* Invoice Items */}
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2">Items</label>
         {items.map((item, index) => (
@@ -83,7 +98,11 @@ export const InvoiceForm: React.FC<Props> = ({ onSubmit, onCancel }) => {
             <Input
               label=""
               value={item.name}
-              onChange={(e) => updateItem(index, 'name', e.target.value)}
+              onChange={(e) => {
+                const newItems = [...items];
+                newItems[index] = { ...item, name: e.target.value };
+                setItems(newItems);
+              }}
               placeholder="Item description"
               required
             />
@@ -92,7 +111,11 @@ export const InvoiceForm: React.FC<Props> = ({ onSubmit, onCancel }) => {
                 label=""
                 type="number"
                 value={item.price}
-                onChange={(e) => updateItem(index, 'price', e.target.value)}
+                onChange={(e) => {
+                  const newItems = [...items];
+                  newItems[index] = { ...item, price: Number(e.target.value) };
+                  setItems(newItems);
+                }}
                 placeholder="Price"
                 required
               />
@@ -108,6 +131,7 @@ export const InvoiceForm: React.FC<Props> = ({ onSubmit, onCancel }) => {
         </button>
       </div>
 
+      {/* Form Actions */}
       <div className="flex justify-end space-x-3">
         <Button type="button" onClick={onCancel}>
           Cancel

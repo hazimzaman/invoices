@@ -9,6 +9,7 @@ export interface Invoice {
   client: Client;
   items: InvoiceItem[];
   created_at: string;
+  currency_selector: string;
 }
 
 export interface InvoiceItem {
@@ -23,4 +24,29 @@ export interface InvoiceItem {
 export interface InvoiceFormData {
   client_id: string;
   items: InvoiceItem[];
+  invoice_number: string;
+  date: string;
+  currency_selector: string;
+}
+
+export interface ClientFormData {
+  name: string;
+  company_name: string;
+  vat: string;
+  phone: string;
+  email: string;
+  address: string;
+  currency_selector: string;
+}
+
+export interface Client {
+  id: string;
+  name: string;
+  company_name: string;
+  vat: string;
+  phone: string;
+  email: string;
+  address: string;
+  currency_selector: string;
+  created_at?: string;
 }

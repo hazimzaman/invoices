@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { Plus } from 'lucide-react';
 import type { ClientFormData } from '../../types';
 
 interface Props {
   onSubmit: (data: ClientFormData) => Promise<void>;
   onCancel: () => void;
 }
+
+// Define currency options
+const CURRENCY_OPTIONS = ['€', '$', 'Rs', '£'];
 
 export const ClientForm: React.FC<Props> = ({ onSubmit, onCancel }) => {
   const [formData, setFormData] = useState<ClientFormData>({
@@ -14,7 +16,8 @@ export const ClientForm: React.FC<Props> = ({ onSubmit, onCancel }) => {
     vat: '',
     phone: '',
     email: '',
-    address: ''
+    address: '',
+    currency_selector: '€' // Add default currency
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -38,6 +41,7 @@ export const ClientForm: React.FC<Props> = ({ onSubmit, onCancel }) => {
                 required
               />
             </div>
+
             <div>
               <label className="block text-sm font-medium text-gray-700">Company Name</label>
               <input
@@ -47,6 +51,7 @@ export const ClientForm: React.FC<Props> = ({ onSubmit, onCancel }) => {
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
               />
             </div>
+
             <div>
               <label className="block text-sm font-medium text-gray-700">VAT Number</label>
               <input
@@ -56,6 +61,7 @@ export const ClientForm: React.FC<Props> = ({ onSubmit, onCancel }) => {
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
               />
             </div>
+
             <div>
               <label className="block text-sm font-medium text-gray-700">Phone</label>
               <input
@@ -66,6 +72,7 @@ export const ClientForm: React.FC<Props> = ({ onSubmit, onCancel }) => {
                 required
               />
             </div>
+
             <div>
               <label className="block text-sm font-medium text-gray-700">Email</label>
               <input
@@ -76,6 +83,7 @@ export const ClientForm: React.FC<Props> = ({ onSubmit, onCancel }) => {
                 required
               />
             </div>
+
             <div>
               <label className="block text-sm font-medium text-gray-700">Address</label>
               <textarea
@@ -86,7 +94,24 @@ export const ClientForm: React.FC<Props> = ({ onSubmit, onCancel }) => {
                 rows={3}
               />
             </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Preferred Currency</label>
+              <select
+                value={formData.currency_selector}
+                onChange={(e) => setFormData({ ...formData, currency_selector: e.target.value })}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                required
+              >
+                {CURRENCY_OPTIONS.map((currency) => (
+                  <option key={currency} value={currency}>
+                    {currency}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
+
           <div className="mt-6 flex justify-end space-x-3">
             <button
               type="button"

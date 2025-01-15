@@ -1,6 +1,4 @@
 export interface InvoiceItem {
-  id?: string;
-  invoice_id?: string;
   name: string;
   price: number;
   currency: string;
@@ -22,4 +20,5 @@ export interface CreateInvoiceData {
   invoice_number: string;
   date: string;
   items: InvoiceItem[];
+  currency_selector: string;
 }

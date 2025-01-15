@@ -29,6 +29,9 @@ export const ClientList: React.FC<Props> = ({ clients }) => {
             <p className="text-sm">
               <span className="font-medium">Address:</span> {client.address}
             </p>
+            <p className="text-sm">
+              <span className="font-medium">Preferred Currency:</span> {client.currency_selector}
+            </p>
           </div>
         </div>
       ))}

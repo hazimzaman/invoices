@@ -11,6 +11,7 @@ interface InvoicePDFProps {
       price: number;
       currency: string;
     }>;
+    currency_selector: string;
   };
   client: {
     name: string;
@@ -100,7 +101,7 @@ export const InvoicePDF: React.FC<InvoicePDFProps> = ({ invoice, client, company
         </table>
 
         <div className="total-section">
-          Total<span>{invoice.items[0]?.currency} {invoice.total_amount.toFixed(2)}</span>
+          Total: {invoice.currency_selector} {invoice.total_amount.toFixed(2)}
         </div>
 
         <div className="footer">

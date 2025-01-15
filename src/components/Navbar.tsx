@@ -27,7 +27,7 @@ export default function Navbar() {
               className={`flex items-center px-3 py-2 rounded-md text-sm font-medium ${isActive('/invoices')}`}
             >
               <FileText className="w-5 h-5 mr-2  bg-red" />
-              Invoices Hazimmm
+              Invoices 
             </Link>
             <Link
               to="/settings"

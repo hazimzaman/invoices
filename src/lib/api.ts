@@ -21,35 +21,48 @@ export const api = {
   },
     
   createClient: async (clientData: ClientFormData) => {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) throw new Error('Not authenticated');
-
     try {
-      // Create client
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        throw new Error('Not authenticated');
+      }
+
+      console.log('Creating client with data:', {
+        ...clientData,
+        user_id: user.id
+      });
+
       const { data, error } = await supabase
         .from('clients')
         .insert({
           name: clientData.name,
-          company_name: clientData.company_name,
-          vat: clientData.vat,
+          company_name: clientData.company_name || '',
+          vat: clientData.vat || '',
           phone: clientData.phone,
           email: clientData.email,
           address: clientData.address,
-          currency_selector: clientData.currency_selector,
+          "currency-selector": clientData.currency_selector,
           user_id: user.id
         })
-        .select()
+        .select('*')
         .single();
-      
+
       if (error) {
-        console.error('Supabase error details:', error);
-        throw new Error(`Failed to create client: ${error.message}`);
+        console.error('Supabase error:', {
+          message: error.message,
+          details: error.details,
+          hint: error.hint,
+          code: error.code
+        });
+        throw new Error(`Database error: ${error.message}`);
       }
 
+      console.log('Created client:', data);
       return data;
+
     } catch (err) {
       console.error('Client creation error:', err);
-      throw new Error('Failed to create client. Please try again.');
+      throw new Error(err instanceof Error ? err.message : 'Failed to create client');
     }
   },
 
@@ -63,7 +76,7 @@ export const api = {
         phone: clientData.phone,
         email: clientData.email,
         address: clientData.address,
-        currency_selector: clientData.currency_selector
+        "currency-selector": clientData.currency_selector
       })
       .eq('id', id)
       .select()
@@ -114,5 +127,22 @@ export const api = {
     }
 
     return data;
+  },
+
+  deleteClient: async (id: string) => {
+    try {
+      const { error } = await supabase
+        .from('clients')
+        .delete()
+        .eq('id', id);
+
+      if (error) {
+        console.error('Delete error:', error);
+        throw new Error(error.message);
+      }
+    } catch (err) {
+      console.error('Delete client error:', err);
+      throw new Error(err instanceof Error ? err.message : 'Failed to delete client');
+    }
   }
 };

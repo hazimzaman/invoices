@@ -73,7 +73,10 @@ export default function Clients() {
         />
       )}
 
-      <ClientList clients={clients} />
+      <ClientList 
+        clients={clients} 
+        onClientUpdate={loadClients}
+      />
     </div>
   );
 }

@@ -1,23 +1,24 @@
 import React, { useState } from 'react';
-import type { ClientFormData } from '../../types';
+import type { Client, ClientFormData } from '../../types';
+import { api } from '../../lib/api';
 
 interface Props {
-  onSubmit: (data: ClientFormData) => Promise<void>;
-  onCancel: () => void;
+  client: Client;
+  onClose: () => void;
+  onUpdate: () => void;
 }
 
-// Define currency options
 const CURRENCY_OPTIONS = ['€', '$', 'Rs', '£'];
 
-export const ClientForm: React.FC<Props> = ({ onSubmit, onCancel }) => {
+export const EditClientForm: React.FC<Props> = ({ client, onClose, onUpdate }) => {
   const [formData, setFormData] = useState<ClientFormData>({
-    name: '',
-    company_name: '',
-    vat: '',
-    phone: '',
-    email: '',
-    address: '',
-    currency_selector: '€'
+    name: client.name,
+    company_name: client.company_name,
+    vat: client.vat,
+    phone: client.phone,
+    email: client.email,
+    address: client.address,
+    currency_selector: client["currency-selector"]
   });
   const [error, setError] = useState<string | null>(null);
 
@@ -25,18 +26,19 @@ export const ClientForm: React.FC<Props> = ({ onSubmit, onCancel }) => {
     e.preventDefault();
     setError(null);
     try {
-      console.log('Submitting form data:', formData);
-      await onSubmit(formData);
+      await api.updateClient(client.id, formData);
+      onUpdate();
+      onClose();
     } catch (err) {
       console.error('Form submission error:', err);
-      setError(err instanceof Error ? err.message : 'Failed to create client');
+      setError(err instanceof Error ? err.message : 'Failed to update client');
     }
   };
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white p-6 rounded-lg w-full max-w-md">
-        <h2 className="text-xl font-bold mb-4">Add New Client</h2>
+        <h2 className="text-xl font-bold mb-4">Edit Client</h2>
         {error && (
           <div className="mb-4 p-3 bg-red-50 text-red-700 rounded-md">
             {error}
@@ -128,7 +130,7 @@ export const ClientForm: React.FC<Props> = ({ onSubmit, onCancel }) => {
           <div className="mt-6 flex justify-end space-x-3">
             <button
               type="button"
-              onClick={onCancel}
+              onClick={onClose}
               className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50"
             >
               Cancel
@@ -137,11 +139,11 @@ export const ClientForm: React.FC<Props> = ({ onSubmit, onCancel }) => {
               type="submit"
               className="px-4 py-2 bg-blue-600 text-white rounded-md text-sm font-medium hover:bg-blue-700"
             >
-              Save
+              Save Changes
             </button>
           </div>
         </form>
       </div>
     </div>
   );
-};
+}; 

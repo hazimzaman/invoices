@@ -47,6 +47,6 @@ export interface Client {
   phone: string;
   email: string;
   address: string;
-  currency_selector: string;
+  "currency-selector": string;
   created_at?: string;
 }

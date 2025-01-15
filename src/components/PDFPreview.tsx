@@ -8,7 +8,7 @@ interface Props {
 
 export const PDFPreview: React.FC<Props> = ({ invoice }) => {
   return (
-    <div className="pdf-preview">
+    <div className="pdf-preview ">
       <div id={`invoice-${invoice.id}`} className="pdf-page">
         <div className="invoice-container">
           <div className="blob-wrapper">
@@ -16,7 +16,7 @@ export const PDFPreview: React.FC<Props> = ({ invoice }) => {
           </div>
           
           <div className="header">
-            <div className="invoice-title">INVOICE</div>
+            <div className="invoice-title">HAZIM</div>
             <div className="company-info">
               <div className="company-logo">
                 <img src="https://hazimzaman.com/wp-content/uploads/2025/01/primo-logo.png" alt="" />
@@ -34,7 +34,7 @@ export const PDFPreview: React.FC<Props> = ({ invoice }) => {
                 <div>{invoice.invoice_number}</div>
               </div>
               <div className="detail-row">
-                <div className="detail-label">Bill to:</div>
+                <div className="detail-label">Bill tooooo:</div>
                 <div>{invoice.client.name}</div>
               </div>
               <div className="detail-row">

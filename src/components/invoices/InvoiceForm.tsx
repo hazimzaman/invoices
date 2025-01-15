@@ -67,7 +67,7 @@ export const InvoiceForm: React.FC<Props> = ({ onSubmit, onCancel }) => {
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
           required
         >
-          <option value="">Select a client</option>
+          <option value="">Select a clienttT</option>
           {clients.map((client) => (
             <option key={client.id} value={client.id}>
               {client.company_name ? `${client.company_name} (${client.name})` : client.name}

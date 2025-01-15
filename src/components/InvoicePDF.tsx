@@ -36,7 +36,7 @@ export const InvoicePDF: React.FC<InvoicePDFProps> = ({ invoice, client, company
         </div>
         
         <div className="header">
-          <div className="invoice-title">INVOICE</div>
+          <div className="invoice-title">HAZIM</div>
           <div className="company-info">
             {company.logo && (
               <div className="company-logo">
@@ -52,7 +52,7 @@ export const InvoicePDF: React.FC<InvoicePDFProps> = ({ invoice, client, company
         <div className="invoice-details">
           <div className="left-details">
             <div className="detail-row">
-              <div className="detail-label">Invoice No:</div>
+              <div className="detail-label">InvoiceSDSDADAS No:</div>
               <div>{invoice.invoice_number}</div>
             </div>
             <div className="detail-row">

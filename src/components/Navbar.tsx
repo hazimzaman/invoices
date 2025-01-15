@@ -14,10 +14,10 @@ export default function Navbar() {
     <nav className="bg-blue-600 text-white">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
-          <div className="flex space-x-4">
+          <div className="flex space-x-4 bg-slate-600">
             <Link
               to="/"
-              className={`flex items-center px-3 py-2 rounded-md text-sm font-medium ${isActive('/')}`}
+              className={`flex items-center px-3 py-2 rounded-md text-sm font-medium  ${isActive('/')}`}
             >
               <Users className="w-5 h-5 mr-2" />
               Clients
@@ -26,8 +26,8 @@ export default function Navbar() {
               to="/invoices"
               className={`flex items-center px-3 py-2 rounded-md text-sm font-medium ${isActive('/invoices')}`}
             >
-              <FileText className="w-5 h-5 mr-2" />
-              Invoices Hazim
+              <FileText className="w-5 h-5 mr-2  bg-red" />
+              Invoices Hazimmm
             </Link>
             <Link
               to="/settings"

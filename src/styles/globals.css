@@ -1,0 +1,14 @@
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .pdf-page, .pdf-page * {
+    visibility: visible;
+  }
+  .pdf-page {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+} 

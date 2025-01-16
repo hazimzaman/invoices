@@ -6,9 +6,10 @@ import type { Invoice } from '../../types/invoice';
 
 interface Props {
   invoices: Invoice[];
+  viewType: 'grid' | 'list';
 }
 
-export const InvoiceList: React.FC<Props> = ({ invoices }) => {
+export const InvoiceList: React.FC<Props> = ({ invoices, viewType }) => {
   const { settings, loading } = useSettings();
 
   if (loading) {
@@ -32,12 +33,18 @@ export const InvoiceList: React.FC<Props> = ({ invoices }) => {
   }
 
   return (
-    <div className="space-y-4">
+    <div className={`
+      ${viewType === 'grid' 
+        ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'
+        : 'space-y-4'
+      }
+    `}>
       {invoices.map((invoice) => (
         <InvoiceCard 
           key={invoice.id} 
           invoice={invoice}
           settings={settings}
+          viewType={viewType}
         />
       ))}
     </div>

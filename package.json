@@ -13,7 +13,7 @@
     "@progress/kendo-ui": "^2024.1.130",
     "@react-pdf/renderer": "^4.1.6",
     "@supabase/supabase-js": "^2.39.3",
-    "date-fns": "^3.3.1",
+    "date-fns": "^3.6.0",
     "html2canvas": "^1.4.1",
     "html2pdf.js": "^0.10.2",
     "jspdf": "^2.5.2",

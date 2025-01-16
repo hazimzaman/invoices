@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Plus } from 'lucide-react';
+import { Plus, LayoutGrid, List } from 'lucide-react';
 import { InvoiceForm } from '../components/invoices/InvoiceForm';
 import { InvoiceList } from '../components/invoices/InvoiceList';
 import { useInvoices } from '../hooks/useInvoices';
@@ -9,6 +9,7 @@ import { LoadingSpinner } from '../components/ui/LoadingSpinner';
 export default function Invoices() {
   const { invoices, loading, error, createInvoice } = useInvoices();
   const [showForm, setShowForm] = useState(false);
+  const [viewType, setViewType] = useState<'grid' | 'list'>('list');
 
   const handleCreateInvoice = async (data: any) => {
     const success = await createInvoice(data);
@@ -29,13 +30,41 @@ export default function Invoices() {
     <div>
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Invoices</h1>
-        <button
-          onClick={() => setShowForm(true)}
-          className="bg-blue-600 text-white px-4 py-2 rounded-md flex items-center"
-        >
-          <Plus className="w-5 h-5 mr-2" />
-          Create Invoice
-        </button>
+        
+        <div className="flex items-center space-x-4">
+          <div className="flex items-center bg-gray-100 rounded-lg p-1">
+            <button
+              onClick={() => setViewType('grid')}
+              className={`p-2 rounded-md ${
+                viewType === 'grid' 
+                  ? 'bg-white text-blue-600 shadow-sm' 
+                  : 'text-gray-600 hover:text-gray-800'
+              }`}
+              title="Grid view"
+            >
+              <LayoutGrid size={20} />
+            </button>
+            <button
+              onClick={() => setViewType('list')}
+              className={`p-2 rounded-md ${
+                viewType === 'list' 
+                  ? 'bg-white text-blue-600 shadow-sm' 
+                  : 'text-gray-600 hover:text-gray-800'
+              }`}
+              title="List view"
+            >
+              <List size={20} />
+            </button>
+          </div>
+
+          <button
+            onClick={() => setShowForm(true)}
+            className="bg-blue-600 text-white px-4 py-2 rounded-md flex items-center"
+          >
+            <Plus className="w-5 h-5 mr-2" />
+            Create Invoice
+          </button>
+        </div>
       </div>
 
       {error && <ErrorMessage message={error} />}
@@ -52,7 +81,10 @@ export default function Invoices() {
         </div>
       )}
 
-      <InvoiceList invoices={invoices} />
+      <InvoiceList 
+        invoices={invoices} 
+        viewType={viewType}
+      />
     </div>
   );
 }
